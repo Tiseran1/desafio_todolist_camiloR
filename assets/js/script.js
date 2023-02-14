@@ -51,12 +51,15 @@ function crearTarea() {
 
 function renderTareas (){
     let html ="";
+    
 
     tareas.forEach(function(tarea){
         let checkboxChequeado = "";
 
             if(tarea.completado) {
                 checkboxChequeado = "checked";
+
+                
             }
 
         let template =`
@@ -71,7 +74,8 @@ function renderTareas (){
         </div>    
         `;
         html += template;
-
+        tareasTotales();
+        tareasRealizadas();
     })
 
     divTareas.innerHTML = html;  
@@ -87,7 +91,7 @@ function actualizarTarea(id){
 
     renderTareas();
     tareasTotales();
-    tareasRealizadas ();
+    tareasRealizadas();
 }
 
     function tareasTotales () {
@@ -106,4 +110,5 @@ function actualizarTarea(id){
         tareas.splice(index, 1);
         renderTareas();
         tareasTotales();
+        tareasRealizadas();
     };
