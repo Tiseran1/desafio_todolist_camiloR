@@ -22,6 +22,8 @@ const botonAgregar = document.querySelector("#btnAgregar");
 const spanTareasTotales = document.querySelector("#tareasTotales");
 const SpanTareasRealizadas = document.querySelector("#tareasRealizadas");
 const divTareas = document.querySelector("#tareas");
+const botonBoorrar = document.querySelector("#btnBorrar");
+
 
 let nuevoId = 4;
 renderTareas ();  
@@ -32,6 +34,7 @@ botonAgregar.addEventListener("click",function (){
 
     renderTareas();
 
+    tareasTotales();
 });
 
 function crearTarea() {
@@ -60,10 +63,11 @@ function renderTareas (){
         <div style="width:10%">${tarea.id}</div>
         <div style="width:70%">${tarea.descripcion}</div>
         <div style="width:10%">
-            <input type="checkbox" id="completado-${tarea.id}" ${checkboxChequeado} onchange ="actualizarTarea${tarea.id}">
+            <input type="checkbox" id="completado-${tarea.id}" ${checkboxChequeado} onchange ="actualizarTarea(${tarea.id})">
         </div>
         <div style="width:10%" class="mt-2">
-            <button class="btn btn-danger">X</button>
+            <button class="btn btn-danger" 
+            onclick="borrar(${tarea.id})">X</button>
         </div>    
         `;
         html += template;
@@ -74,9 +78,10 @@ function renderTareas (){
 }
 
 function actualizarTarea(id){
+
     const indexTarea = tareas.findIndex(tarea => tarea.id == id ); 
 
-    const completada = documen.querySelector("#completado-" + id).checked; 
+    const completada = document.querySelector("#completado-" + id).checked; 
 
     tareas[indexTarea].completado =  completada;
 
@@ -90,7 +95,15 @@ function actualizarTarea(id){
         spanTareasTotales.innerHTML = total;
     }
     function tareasRealizadas () {
-        let tareasCompletadas =  tareas.filter (tareas => tareas.completado)
+        let tareasCompletadas =  tareas.filter (tareas => tareas.completado);
         let realizadas = tareasCompletadas.length;
-        spanTareasTotales.innerHTML = realizadas;
+
+        SpanTareasRealizadas.innerHTML = realizadas;
     }
+    
+    function borrar(id){
+        const index = tareas.findIndex((ele) => ele.id == id);
+        tareas.splice(index, 1);
+        renderTareas();
+        tareasTotales();
+    };
